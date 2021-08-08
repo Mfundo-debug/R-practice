@@ -1,0 +1,79 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+ 
+
+```{r}
+plot(cars)
+```
+```{r}
+(x <-1:10)
+```
+```{r}
+seq(from =1, to = 100, by =3)
+```
+```{r}
+ y[2:10]
+```
+```{r}
+(z<- 1:9)
+```
+```{r}
+y+z
+```
+```{r}
+(p<- y+z)
+```
+```{r}
+r[1:10]
+```
+```{r}
+r+p
+```
+the reason why it says that, its because they are of the same length, we can prove that finding each length of 'r' and 'p', then from there we can subside the vector.
+```{r}
+length(r)
+```
+```{r}
+length(p)
+```
+create new vector 
+```{r}
+r_new<- r[1:9]
+```
+```{r}
+length(r_new)
+```
+Now lets see whether these vectors are of the same length
+```{r}
+r_new == p
+```
+```{r}
+length(p)
+```
+```{r}
+length(r_new) == length(p)
+```
+vector addition
+```{r}
+r_new + p
+```
+vector multiplication
+```{r}
+r_new * p
+```
+vector subtraction
+```{r}
+r_new - p
+```
+vice versa
+```{r}
+p - r_new
+```
+```{r}
+plot(r_new)
+```
+
+
