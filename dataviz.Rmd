@@ -1,0 +1,143 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(ggplot2)
+data(mtcars)
+basic <- ggplot(mtcars, aes(wt,mpg, colour= factor(cyl), shape= factor(vs))) +
+  geom_point()
+basic
+```
+
+
+```{r}
+# Left -> legend around the plot
+basic + theme(legend.position = "bottom")
+# Right -> inside the plot area
+basic + theme(
+    legend.position = c(.95, .95),
+    legend.justification = c("right", "top"),
+    legend.box.just = "right",
+    legend.margin = margin(6, 6, 6, 6)
+    )
+```
+```{r}
+basic + theme(
+    legend.box.background = element_rect(color="red", size=2),
+    legend.box.margin = margin(116, 6, 6, 6)
+)
+```
+```{r}
+basic + theme(legend.key = element_rect(fill = "white", colour = "black"))
+```
+```{r}
+basic + theme(legend.text = element_text(size = 8, colour = "red"))
+```
+```{r}
+basic + theme(legend.title = element_text(face = "bold"))
+```
+```{r}
+# Create Data
+data <- data.frame(
+  group=LETTERS[1:5],
+  value=c(13,7,9,21,2)
+)
+
+# Basic piechart
+ggplot(data, aes(x="", y=value, fill=group)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0)
+```
+```{r}
+data <- data.frame(
+  group=LETTERS[1:5],
+  value=c(13,7,9,21,2)
+)
+
+# Basic piechart
+ggplot(data, aes(x="", y=value, fill=group)) +
+  geom_bar(stat="identity", width=1, color="white") +
+  coord_polar("y", start=0) +
+  
+  theme_void() #
+```
+```{r}
+library(packcircles)
+library(ggplot2)
+#create data
+data <- data.frame(group=paste("Group", letters[1:20]), value=sample(seq(1,100),20)) 
+
+packing <- circleProgressiveLayout(data$value, sizetype='area')
+
+data <- cbind(data, packing)
+
+dat.gg <- circleLayoutVertices(packing, npoints =50)
+
+ggplot() +
+  
+  geom_polygon(data = dat.gg, aes(x,y, group = id, fill = as.factor(id)), color = "black", alpha = 0.6) +
+  geom_text(data = data, aes(x,y, size = value, label = group)) + scale_size_continuous(range = c(1,4)) +
+  
+  theme_void() +
+  theme(legend.position = "none") +
+  coord_equal()
+```
+```{r}
+library(tidyverse)
+library(hrbrthemes)
+library(babynames)
+library(viridis)
+
+# Load dataset from github
+data <- read.table("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered.csv", header=T)
+data$date <- as.Date(data$date)
+
+# Load dataset from github
+don <- babynames %>% 
+  filter(name %in% c("Ashley", "Amanda", "Mary", "Deborah",   "Dorothy", "Betty", "Helen", "Jennifer", "Shirley")) %>%
+  filter(sex=="F")
+
+# Plot
+don %>%
+  ggplot( aes(x=year, y=n, group=name, fill=name)) +
+    geom_area() +
+    scale_fill_viridis(discrete = TRUE) +
+    theme(legend.position="none") +
+    ggtitle("Popularity of American names in the previous 30 years") +
+    theme_ipsum() +
+    theme(
+      legend.position="none",
+      panel.spacing = unit(0, "lines"),
+      strip.text.x = element_text(size = 8),
+      plot.title = element_text(size=13)
+    ) +
+    facet_wrap(~name, scale="free_y")
+```
+
+```{r}
+#library
+library(igraph)
+
+# Create data
+set.seed(10)
+data <- matrix(sample(0:2, 25, replace=TRUE), nrow=5)
+colnames(data) = rownames(data) = LETTERS[1:5]
+ 
+# build the graph object
+network <- graph_from_adjacency_matrix(data)
+ 
+# plot it
+plot(network)
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
